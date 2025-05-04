@@ -5,7 +5,11 @@ use App\Http\Controllers\AuthController;
 
 
 Route::get('/', function () { return view( 'auth.login' ); })->name('home');
+Route::post('/loginStore', [ AuthController::class, 'loginStore' ] )->name('login.store');
 
 Route::get('/registration', function () { return view( 'auth.registration' ); })->name('registration.show');
 Route::post('/registrationStore', [ AuthController::class, 'registrationStore' ] )->name('registration.store');
+
+Route::get('/adminDashboard', function () { return view( 'dashboard.adminDashboard' ); })->name('admin.dashboard');
+Route::get('/clientDashboard', function () { return view( 'dashboard.clientDashboard' ); })->name('client.dashboard');
 

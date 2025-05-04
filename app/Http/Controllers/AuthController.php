@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -20,11 +21,11 @@ class AuthController extends Controller
             'image'=> 'nullable |mimes:png,jpg,gift',
         ]);
 
-        // image Upload
+        // Image Upload
         $imagename = time().'.'.$request->image->extension();
         $request->image->move(public_path('images'),$imagename);
 
-        // new Post create
+        // New Post create
         $User = new User;
         $User->firstName = $request->firstName;
         $User->lastName = $request->lastName;
@@ -36,10 +37,34 @@ class AuthController extends Controller
         $result = $User->save();
         
         if($result){
-            return back()->with( 'success', 'Successfully Your  Registration' ); 
+            return back()->with( 'success', 'Successfully your  registration' ); 
         }else{
-            return back()->with( 'fail', 'Something Wrong Please Try Agin' ); 
+            return back()->with( 'fail', 'Something wrong please try agin' ); 
         }
 
     }
+
+    public function loginStore( Request $request ) {
+
+        $credentials = $request->validate([
+                    'email' => 'required|email',
+                    'password' => 'required',
+                ]);
+        
+                // return $credentials;
+        
+                if (Auth::attempt($credentials)) {
+                    $request->session()->regenerate();
+                
+                if(Auth::user()->role=== 'admin') {
+                    return redirect()->route('admin.dashboard');
+                }
+                    return redirect()->route('client.dashboard');
+        
+                } else {
+                    return back()->with('fail', 'Credentials not matched.');
+                }
+            }
+
+    
 }
