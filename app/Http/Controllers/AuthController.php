@@ -36,10 +36,12 @@ class AuthController extends Controller
         $User->image = $imagename;
         $result = $User->save();
         
-        if($result){
-            return back()->with( 'success', 'Successfully your  registration' ); 
+        if($result) {
+            flash()->success('Successfully your  registration');
+            return back(); 
         }else{
-            return back()->with( 'fail', 'Something wrong please try agin' ); 
+            flash()->error('Something wrong please try agin!');
+            return back(); 
         }
 
     }
@@ -56,13 +58,14 @@ class AuthController extends Controller
                 if (Auth::attempt($credentials)) {
                     $request->session()->regenerate();
                 
-                if(Auth::user()->role=== 'admin') {
+                if(Auth::user()->role === 'admin') {
                     return redirect()->route('admin.dashboard');
                 }
                     return redirect()->route('client.dashboard');
         
                 } else {
-                    return back()->with('fail', 'Credentials not matched.');
+                    flash()->error('Credentials not matched!');
+                    return back();
                 }
             }
 
