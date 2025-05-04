@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Private Access</title>
+    <title>Registration Access</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,56 +29,88 @@
            {{--Input Field --}}
             <div class="w-1/2">
 
-                <form method="POST" action="" class="space-y-4 ">
-                    @csrf
+            <form method="POST" action="{{ route( 'registration.store' ) }}" class="space-y-3" enctype="multipart/form-data">
+                @csrf
+
+            @if (Session::has( 'success' ))
+                <div class="p-4 mb-4 text-sm text-white rounded-xl bg-emerald-500  font-normal" role="alert">
+                <span class="font-semibold mr-2">{{ Session::get( 'success' ) }}</span>
+                  </div>
+            @endif
+
+            @if (Session::has( 'fail' ))
+                <div class="p-4 mb-4 text-sm text-white rounded-xl bg-red-500  font-normal" role="alert">
+                <span class="font-semibold mr-2">{{ Session::get( 'fail' ) }}</span>
+                </div>
+            @endif
+
                     <input 
                         type="text" 
                         name="firstName"
                         id="firstName" 
                         placeholder="Enter Your First Name"
-                        class="w-full border-b-2 border-orange-400 focus:outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent" >
+                        class="w-full border-b-2 border-orange-400 focus:outline-none py-1 text-gray-700 placeholder-gray-400 bg-transparent" >
+                    @error( 'firstName' )
+                        <h4 class="text-red-500 ">{{ $message }}</h4>                   
+                    @enderror
                         
-                        <input
+                    <input
                         type="text" 
                         name="lastName"
                         id="lastName" 
                         placeholder="Enter Your Last Name"
-                        class="w-full border-b-2 border-orange-400 focus:outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent" >
+                        class="w-full border-b-2 border-orange-400 focus:outline-none py-1 text-gray-700 placeholder-gray-400 bg-transparent" >
+                    @error( 'lastName' )
+                        <h4 class="text-red-500 ">{{ $message }}</h4>                   
+                    @enderror    
 
-                        <input
+                    <input
                         type="text" 
                         name="userName"
                         id="userName" 
                         placeholder="Enter Your User Name"
-                        class="w-full border-b-2 border-orange-400 focus:outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent" >
+                        class="w-full border-b-2 border-orange-400 focus:outline-none py-1 text-gray-700 placeholder-gray-400 bg-transparent" >
+                    @error( 'userName' )
+                        <h4 class="text-red-500 ">{{ $message }}</h4>                   
+                    @enderror
 
-                        <input
+                    <input
                         type="email" 
                         name="email" 
                         placeholder="Enter Your Email"
-                        class="w-full border-b-2 border-orange-400 focus:outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent" >
+                        class="w-full border-b-2 border-orange-400 focus:outline-none py-1 text-gray-700 placeholder-gray-400 bg-transparent" >
+                    @error( 'email' )
+                        <h4 class="text-red-500 ">{{ $message }}</h4>                   
+                    @enderror
 
 
                     <input 
                         type="password" 
                         name="password" 
                         placeholder="Enter Your Password"
-                        class="w-full border-b-2 border-orange-400 focus:outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent" >
+                        class="w-full border-b-2 border-orange-400 focus:outline-none py-1 text-gray-700 placeholder-gray-400 bg-transparent" >
+                    @error( 'password' )
+                        <h4 class="text-red-500 ">{{ $message }}</h4>                   
+                    @enderror
 
-                        <input
+                    <input
                         type="text" 
                         name="role" 
                         placeholder="Enter Users Role"
-                        class="w-full border-b-2 border-orange-400 focus:outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent" >
+                        class="w-full border-b-2 border-orange-400 focus:outline-none py-1 text-gray-700 placeholder-gray-400 bg-transparent" >
+                    @error( 'role' )
+                        <h4 class="text-red-500 ">{{ $message }}</h4>                   
+                    @enderror
 
-                        <input
+                    <input
                         type="file" 
                         name="image" 
-                        class="w-full border-b-2 border-orange-400 focus:outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent" >
+                        class="w-full border-b-2 border-orange-400 focus:outline-none py-1 text-gray-700 placeholder-gray-400 bg-transparent" >
+                    
 
                     <button 
                         type="submit" 
-                        class="w-full py-2 text-blue-700 font-semibold rounded-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 transition"
+                        class="w-full py-1 text-blue-700 font-semibold rounded-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 transition"
                     >Registration → 
                     </button>
                 </form>
@@ -120,7 +152,7 @@
     function updateUserName() {
         const fName = firstName.value.trim();
         const lName = lastName.value.trim();
-        userName.value = `${fName}${lName}`.replace(/\s+/g, '').toLowerCase();
+        userName.value = `${fName}${lName}`.replace(/\s+/g, '');
     }
 
         firstName.addEventListener('input', updateUserName);
