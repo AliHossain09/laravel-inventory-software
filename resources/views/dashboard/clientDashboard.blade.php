@@ -1,4 +1,226 @@
-@extends('clientLayout.app')
+@extends('layout.app')
+
+    {{-- AsideBar  --}}
+    @section('asideBar')
+
+    <ul class="list-reset flex flex-row md:flex-col py-0 md:py-3 px-1 md:px-2 text-center md:text-left  ">
+                   
+        <li class="mr-3 flex-1 mb-6">
+            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600">
+                <i class="fas fa-chart-area pr-0 md:pr-3 text-blue-600"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block">Analytics</span>
+            </a>
+        </li>
+        {{-- Category --}}
+
+        <li class="mr-3 flex-1" x-data="{ open: false }">
+            <!-- Main Category Item -->
+            <a href="#" @click.prevent="open = !open"
+               class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <i class="fa fa-wallet pr-0 md:pr-3"></i>
+                <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block ">
+                    Category
+                </span>
+                <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block md:ml-8"><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
+            </a>
+        
+            <!-- Dropdown Options -->
+            <ul x-show="open" class="ml-6 mt-2 space-y-3" >
+                <li>
+                    <a href="" class="text-xs text-gray-300 hover:bg-gray-600 p-2 rounded">
+                        ➕ Add Category
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="text-xs text-gray-300 hover:bg-gray-600 p-2 rounded">
+                        📄 View Categories
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        {{-- ...Pro.... --}}
+        <li class="mr-3 flex-1" x-data="{ open: false }">
+            <!-- Main Category Item -->
+            <a href="#" @click.prevent="open = !open"
+               class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <i class="fa fa-wallet pr-0 md:pr-3"></i>
+                <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block ">
+                    Pro
+                </span>
+                <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block md:ml-8"><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
+            </a>
+        
+            <!-- Dropdown Options -->
+            <ul x-show="open" class="ml-6 mt-2 space-y-3" >
+                <li>
+                    <a href="{{ route('client.addProduct') }}" class="text-xs text-gray-300 hover:bg-gray-600 p-2 rounded">
+                        ➕ Add Pro
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="text-xs text-gray-300 hover:bg-gray-600 p-2 rounded">
+                        📄 View Pro
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {{-- Category --}}
+
+        {{-- Post --}}
+        <div x-data="{ open: false, modalIsOpen: false }">
+            <!-- Sidebar Menu Item -->
+            <li class="mr-3 flex-1">
+              <a href="#" @click.prevent="open = !open"
+                 class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <i class="fa fa-wallet pr-0 md:pr-3"></i>
+                <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">
+                  Product
+                </span>
+                <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block md:ml-8">
+                  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                </span>
+              </a>
+          
+              <!-- Dropdown Options -->
+              <ul x-show="open" class="ml-6 mt-2 space-y-3">
+                <li>
+                  <button @click="modalIsOpen = true" class="text-xs text-gray-300 hover:bg-gray-600 p-2 rounded w-full text-left">
+                    ➕ Add Product
+                  </button>
+                </li>
+                <li>
+                  <a href="#" class="text-xs text-gray-300 hover:bg-gray-600 p-2 rounded">
+                    📄 View Product
+                  </a>
+                </li>
+              </ul>
+            </li>
+          
+            <!-- Tailwind Modal -->
+            <!-- Modal Container -->
+<div
+x-cloak
+x-show="modalIsOpen"
+x-transition.opacity.duration.200ms
+x-trap="modalIsOpen"
+x-on:keydown.esc.window="modalIsOpen = false"
+x-on:click.self="modalIsOpen = false"
+class="fixed inset-0 z-50 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-sm sm:items-center lg:p-8 overflow-y-auto"
+role="dialog"
+aria-modal="true"
+aria-labelledby="defaultModalTitle"
+>
+<!-- Modal Box with Form -->
+<form
+  action=""
+  method="POST"
+  enctype="multipart/form-data"
+  class="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-md border border-gray-300 bg-white text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 shadow-lg"
+>
+  @csrf
+
+  <!-- Modal Header -->
+  <div class="flex items-center justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 sticky top-0 z-10">
+    <h3 id="defaultModalTitle" class="font-semibold text-gray-900 dark:text-white">Add New Post</h3>
+    <button type="button" @click="modalIsOpen = false" class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white">
+      ✕
+    </button>
+  </div>
+
+  <!-- Modal Body -->
+  <div class="px-4 py-6 space-y-4">
+    {{-- div 111 --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+ 
+ <label class="block">
+    <span class="text-sm font-bold">ArticleNumber:</span>
+    <input type="text" name="articleNumber" required class="mt-1 w-full rounded border px-3 py-2 text-sm focus:ring focus:outline-none" />
+  </label>
+  
+  <label class="block">
+    <span class="text-sm font-bold">Color:</span>
+    <input type="text" name="color" required class="mt-1 w-full rounded border px-3 py-2 text-sm focus:ring focus:outline-none" />
+  </label>
+    </div>
+    {{-- div 222 --}}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <label class="block">
+            <span class="text-sm font-bold">Size:</span>
+            <input type="text" name="size" required class="mt-1 w-full rounded border px-3 py-2 text-sm focus:ring focus:outline-none" />
+          </label>
+          
+          
+          <label class="block">
+            <span class="text-sm font-bold">Category:</span>
+            <input type="text" name="category" required class="mt-1 w-full rounded border px-3 py-2 text-sm focus:ring focus:outline-none" />
+          </label>
+
+    </div>
+   
+    
+    {{-- div 333 --}}
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <label class="block">
+        <span class="text-sm font-bold">Company:</span>
+        <input type="text" name="company" required class="mt-1 w-full rounded border px-3 py-2 text-sm focus:ring focus:outline-none" />
+      </label>
+     
+      <label class="block">
+        <span class="text-sm font-bold">Quantity:</span>
+        <input type="text" name="quantity" required class="mt-1 w-full rounded border px-3 py-2 text-sm focus:ring focus:outline-none" />
+      </label>
+  </div>
+    
+   
+   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <label class="block">
+        <span class="text-sm font-bold">Price:</span>
+        <input type="text" name="price" required class="mt-1 w-full rounded border px-3 py-2 text-sm focus:ring focus:outline-none" />
+      </label>
+  
+  
+      <label class="block">
+        <span class="text-sm font-bold">Image:</span>
+        <input type="file" name="image" accept="image/*" class="mt-1 block w-full text-sm" />
+      </label>
+   </div>
+    {{-- /7777777777 --}}
+   
+  </div>
+
+  <!-- Modal Footer -->
+  <div class="flex justify-end items-center border-t border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">Add Post</button>
+  </div>
+</form>
+</div>
+
+                 
+          
+        {{--  Post --}}
+
+        <li class="mr-3 flex-1 mt-4">
+            <a href="#" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <i class="fa fa-wallet pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Category</span>
+            </a>
+        </li>
+
+        <li class="mr-3 flex-1">
+            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Tasks</span>
+            </a>
+        </li>
+
+        <li class="mr-3 flex-1">
+            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
+                <i class="fa fa-envelope pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Messages</span>
+            </a>
+        </li>
+
+    </ul>
+
+    @endsection
 
     {{-- Navber --}}
 @section('navber')
@@ -32,14 +254,14 @@
                      <div class="relative inline-block">
                          
                          <button>
-                                 <span class="text-sm text-amber-50"> {{$user->firstName}} </span>
+                                 <span class="text-sm text-amber-50"> {{$user->userName}} </span>
                                  <img onclick="toggleDD('myDropdown')" src="images/{{$user->image}}" alt="Profile" class="drop-button text-white focus:outline-none rounded-full w-8 h-8 inline">
                          </button>
 
-                         <div id="myDropdown" class="dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
+                         <div id="myDropdown" class="dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible  ">
                              <input type="text" class="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput" onkeyup="filterDD('myDropdown','myInput')">
                              <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-user fa-fw"></i> Profile</a>
-                             <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-cog fa-fw"></i> Settings</a>
+                             <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-cog fa-fw"></i> Change Password </a>
                              <div class="border border-gray-800"></div>
                              <a href="{{ route('user.logout') }}" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
                          </div>
@@ -73,8 +295,9 @@
                         <div class="rounded-full p-5 bg-green-600"><i class="fa fa-wallet fa-2x fa-inverse"></i></div>
                     </div>
                     <div class="flex-1 text-right md:text-center">
-                        <h5 class="font-bold uppercase text-gray-600">Total Revenue</h5>
+                        <h5 class="font-bold uppercase text-gray-600">Total Product</h5>
                         <h3 class="font-bold text-3xl">$3249 <span class="text-green-500"><i class="fas fa-caret-up"></i></span></h3>
+                        
                     </div>
                 </div>
             </div>

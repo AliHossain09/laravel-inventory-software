@@ -1,4 +1,35 @@
-@extends('clientLayout.app')
+@extends('layout.app')
+
+    {{-- AsideBer --}}
+    @section('asideBar')
+    <ul class="list-reset flex flex-row md:flex-col py-0 md:py-3 px-1 md:px-2 text-center md:text-left">
+                   
+        <li class="mr-3 flex-1">
+            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600">
+                <i class="fas fa-chart-area pr-0 md:pr-3 text-blue-600"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block">Analytics</span>
+            </a>
+        </li>
+
+        <li class="mr-3 flex-1">
+            <a href="#" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <i class="fa fa-wallet pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Payments</span>
+            </a>
+        </li>
+
+        <li class="mr-3 flex-1">
+            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Tasks</span>
+            </a>
+        </li>
+
+        <li class="mr-3 flex-1">
+            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
+                <i class="fa fa-envelope pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Messages</span>
+            </a>
+        </li>
+
+    </ul>
+    @endsection
 
     {{-- Dashboard Name --}}
     @section('navber')
@@ -32,16 +63,16 @@
                      <div class="relative inline-block">
                          
                          <button>
-                                 <span class="text-sm text-amber-50"> non grad </span>
-                                 <img onclick="toggleDD('myDropdown')" src="https://i.pravatar.cc/32" alt="Profile" class="drop-button text-white focus:outline-none rounded-full w-8 h-8 inline">
+                                 <span class="text-sm text-amber-50"> {{$user->userName}} </span>
+                                 <img onclick="toggleDD('myDropdown')" src="images/{{$user->image}}" alt="Profile" class="drop-button text-white focus:outline-none rounded-full w-8 h-8 inline">
                          </button>
 
                          <div id="myDropdown" class="dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
                              <input type="text" class="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput" onkeyup="filterDD('myDropdown','myInput')">
                              <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-user fa-fw"></i> Profile</a>
-                             <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-cog fa-fw"></i> Settings</a>
+                             <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-cog fa-fw"></i> Change Password </a>
                              <div class="border border-gray-800"></div>
-                             <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
+                             <a href="{{ route('user.logout') }}" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
                          </div>
                      </div>
                  </li>
@@ -72,8 +103,8 @@
                     <div class="rounded-full p-5 bg-green-600"><i class="fa fa-wallet fa-2x fa-inverse"></i></div>
                 </div>
                 <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Total Revenue</h5>
-                    <h3 class="font-bold text-3xl">$3249 <span class="text-green-500"><i class="fas fa-caret-up"></i></span></h3>
+                    <h5 class="font-bold uppercase text-gray-600">Total Admins</h5>
+                    <h3 class="font-bold text-3xl"> {{ $admins }} <span class="text-green-500"><i class="fas fa-caret-up"></i></span></h3>
                 </div>
             </div>
         </div>
@@ -87,13 +118,14 @@
                     <div class="rounded-full p-5 bg-pink-600"><i class="fas fa-users fa-2x fa-inverse"></i></div>
                 </div>
                 <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Total Users</h5>
-                    <h3 class="font-bold text-3xl">249 <span class="text-pink-500"><i class="fas fa-exchange-alt"></i></span></h3>
+                    <h5 class="font-bold uppercase text-gray-600">Total Clients</h5>
+                    <h3 class="font-bold text-3xl"> {{ $users }} <span class="text-pink-500"><i class="fas fa-exchange-alt"></i></span></h3>
                 </div>
             </div>
         </div>
         <!--/Metric Card-->
     </div>
+
     <div class="w-full md:w-1/2 xl:w-1/3 p-6">
         <!--Metric Card-->
         <div class="bg-gradient-to-b from-yellow-200 to-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-xl p-5">
@@ -102,12 +134,15 @@
                     <div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-user-plus fa-2x fa-inverse"></i></div>
                 </div>
                 <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">New Users</h5>
-                    <h3 class="font-bold text-3xl">2 <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h3>
+                    <h5 class="font-bold uppercase text-gray-600">Total Users</h5>
+                    <h3 class="font-bold text-3xl"> {{ $users + $admins }} <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h3>
+                    <a class="font-bold uppercase text-gray-600" href="{{ route('registration.show') }}">Add User <span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
                 </div>
             </div>
         </div>
         <!--/Metric Card-->
+
+        
     </div>
     <div class="w-full md:w-1/2 xl:w-1/3 p-6">
         <!--Metric Card-->
